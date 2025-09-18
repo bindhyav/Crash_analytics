@@ -11,6 +11,12 @@ from utils import get_focused_app, get_serial_number, get_product_details
 ROOT = Path(__file__).resolve().parent
 REPORTS = ROOT / "reports"
 
+def pytest_configure(config):
+    """Remove unwanted environment metadata from pytest-html report"""
+    metadata = getattr(config, "_metadata", {})
+    for key in ["JAVA_HOME", "WORKSPACE", "GIT_URL"]:
+        metadata.pop(key, None)
+
 
 def _device_from_env() -> str:
     dev = (os.getenv("DEVICE") or "").strip()
@@ -61,6 +67,9 @@ def main() -> int:
         "--maxfail=1",
         "--disable-warnings",
         "--html", html, "--self-contained-html",
+        "--metadata","JAVA_HOME","",
+        "--metadata","WORKSPACE","",
+        "--metadata","GIT_URL",""
     ]
     return pytest.main(args)
 
