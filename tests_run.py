@@ -2,11 +2,8 @@ from __future__ import annotations
 import os, sys, re, datetime as dt
 from pathlib import Path
 import pytest
-
-# --- your existing helpers (already in your repo) ---
 from utils import get_focused_app, get_serial_number, get_product_details
 
-# ----------------------------------------------------
 
 ROOT = Path(__file__).resolve().parent
 REPORTS = ROOT / "reports"

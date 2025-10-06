@@ -4,7 +4,6 @@ import time
 from datetime import datetime, timedelta
 import pytest
 from modules import events as ev
-
 import utils as util
 
 def test_events_Display():

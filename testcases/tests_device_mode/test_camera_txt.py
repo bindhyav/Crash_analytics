@@ -2,12 +2,11 @@
 
 import pytest
 from modules import generate_download as generate
-from modules.extraction import camera_txt_main
+from modules.extraction import camera_txt_main, search_edid_file
 from utils import get_auth_and_cookie
 
 POLL_MINUTES = 10  # how long to keep checking
 POLL_EVERY_SEC = 30  # how often to recheck
-
 
 def test_on_demand_bugreport_appears():
     # --- auth from your config files ---
@@ -33,7 +32,7 @@ def test_on_demand_bugreport_appears():
     # ---- 5) Extract events from the downloaded bug report ----
     try:
         camera_txt_main()
+        search_edid_file()
     except Exception as e:
         pytest.fail(f"Event extraction failed: {e}")
         return
-
