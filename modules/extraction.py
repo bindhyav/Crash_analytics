@@ -14,7 +14,7 @@ EXTRACT_DIR = ROOT.parent / "bugreport_extract"
 SEVEN_ZIP = os.environ.get("SEVEN_ZIP",r"C:\Program Files\7-Zip\7z.exe")
 SEARCH_PREFIX = "bugreport-"
 SEARCH_STRING = "DUMP OF SERVICE diskstats"
-EXTRACT_DIR_PATH = r"C:\Users\BINDHV\Downloads\bugreport-2411FD1LG0A2-2025-10-06T06_46_25\android-bugreport3911253177379017633.mar\2025-10-06T06-49-24-970Z-891ea6ed-4b4d-4072-b1be-62444208e11c\bugreport-sdm845-SKQ3.220302.002-2025-10-06-12-16-25\FS\proc\AllHWList\LCM0"
+
 
 
 
@@ -131,22 +131,22 @@ def search_edid_file():
         pass  # Keep extracting until no zip files remain
 
     # Step 3: Search for edid file
-    edid_file_path = search_file_in_directory(EXTRACT_DIR_PATH, "edid")
+    edid_file_path = find_edid_file(EXTRACT_DIR)
     return edid_file_path
 
-def search_file_in_directory(root_dir, target_file):
-    """
-    Recursively search for a file inside a given directory.
-    Returns the full path if found, otherwise None.
-    """
-    for root, dirs, files in os.walk(root_dir):
-        if target_file in files:
-            found_path = os.path.join(root, target_file)
-            print(f"✓ Found file: {found_path}")
-            return found_path
-    print(f"✗ File '{target_file}' not found under {root_dir}")
-    return None
-
+def find_edid_file(root_dir):
+    print(f"Searching for edid files in ...")
+    found_files = []
+    for dirpath, _, files in os.walk(root_dir):
+        for file in files:
+            if "edid" in file.lower():
+                full_path = os.path.join(dirpath, file)
+                found_files.append(full_path)
+    if found_files:
+        print("Found edid files:")
+        for f in found_files:
+            print(f"{f}")
+    return found_files
 
 def dump_event_main():
     zip_path = get_latest_bugreport_zip()
